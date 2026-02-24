@@ -3,6 +3,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,mathtools, hyperref}
 \usepackage{cleveref}
+\usepackage{enumitem}
 \title{Fourier Analysis Notes (Stein-Shakarchi)}
 \author{Prashant Rao}
 \date{}
@@ -16,217 +17,239 @@
 \newcommand{\NN}{\ensuremath{\mathbb{N}}}
 \begin{document}
 \maketitle
-\begin{thm}
-  Let $u:\RR^2\to\RR$ be twice differentiable in both variables, and
-  define a change of variables via polar coordinates from $\left( x,y
-  \right)\in\RR^2$ to $\left( r,\theta
-  \right)\in\RR_+\times\left[0,2\pi\right)$:
-  \begin{align*}
-    x & = r\cos\theta & y & =r\sin\theta
-  \end{align*}
-  Then, we can write:
-  \begin{displaymath}
-    \Delta u = \pdern ur2 + \pdern u\theta2 \frac{1}{r^2} + \pder ur\frac{1}{r}
-  \end{displaymath}
+% \begin{thm}
+%   Let $u:\RR^2\to\RR$ be twice differentiable in both variables, and
+%   define a change of variables via polar coordinates from $\left( x,y
+%   \right)\in\RR^2$ to $\left( r,\theta
+%   \right)\in\RR_+\times\left[0,2\pi\right)$:
+%   \begin{align*}
+%     x & = r\cos\theta & y & =r\sin\theta
+%   \end{align*}
+%   Then, we can write:
+%   \begin{displaymath}
+%     \Delta u = \pdern ur2 + \pdern u\theta2 \frac{1}{r^2} + \pder
+% ur\frac{1}{r}
+%   \end{displaymath}
+% \end{thm}
+% \begin{proof}[Proof:]
+%   First note:
+%   \begin{align*}
+%     r^2
+%     & = x^2+y^2                                                          \\
+%     \implies \pder rx
+%     & = \frac xr = \cos\theta
+%     \shortintertext{and similarly:}
+%     \pder ry
+%     & = \frac yr = \sin\theta
+%     \shortintertext{for $\theta$ we have:}
+%     \theta
+%     & = \arctan \frac yx                                                 \\
+%     \implies \pder \theta x
+%     & = \frac{1}{1 + \left( \frac{y}{x} \right)^2} \cdot - \frac{y}{x^2}
+%     = - \frac{y}{x^2+y^2} = -\frac{\sin\theta}{r}                         \\
+%     \pder \theta y
+%     & = \frac{1}{1 + \left( \frac{y}{x} \right)^2} \cdot \frac{1}{x}
+%     = \frac{x}{x^2+y^2} = \frac{\cos\theta}{r}
+%   \end{align*}
+%   Thus for any function $f$ of $\left(x,y\right)\in\RR^2$, we have:
+%   \begin{align*}
+%     \pder fx
+%     & = \pder fr \pder rx + \pder f\theta\pder\theta x
+%     = \pder fr\cos\theta - \pder f\theta \frac{\sin\theta}{r} \\
+%     \pder fy
+%     & = \pder fr \pder ry + \pder f\theta\pder\theta y
+%     = \pder fr\sin\theta + \pder f\theta \frac{\cos\theta}{r}
+%   \end{align*}
+%   Hence we can evaluate:
+%   \begin{align*}
+%     \pder ux
+%     & = \pder ur\cos\theta - \pder u\theta \frac{\sin\theta}{r}
+%     \shortintertext{so:}
+%     \pdern ux2
+%     & = \frac{\partial u_x}{\partial r}\cos\theta - \frac{\partial
+%     u_x}{\partial\theta}\frac{\sin\theta}{r}
+%     \\
+%     & = \left( \pdern ur2 \cos\theta - \frac{\partial^2u}{\partial
+%       r\partial\theta}\frac{\sin\theta}{r} + \pder u\theta
+%     \frac{\sin\theta}{r^2} \right)\cos\theta
+%     \\
+%     & \qquad- \left( \frac{\partial^2 u}{\partial r\partial\theta}
+%       \cos\theta - \pder ur\sin\theta - \pdern u\theta2
+%     \frac{\sin\theta}{r} - \pder u\theta \frac{\cos\theta}{r} \right)
+%     \frac{\sin\theta}{r}                                            \\
+%     & = \pdern ur2 \cos^2\theta + \pdern u\theta2
+%     \frac{\sin^2\theta}{r^2} - 2\frac{\partial^2u}{\partial
+%     r\partial\theta} \frac{\sin\theta\cos\theta}{r}
+%     + \pder ur \frac{\sin^2\theta}{r} + 2\pder u\theta
+%     \frac{\sin\theta\cos\theta}{r^2}
+%     \shortintertext{and similarly:}
+%     \pder uy
+%     & = \pder ur\sin\theta + \pder u\theta \frac{\cos\theta}{r}
+%     \\
+%     \implies
+%     \pdern uy2
+%     & = \pder {u_y}r \sin\theta + \pder{u_y}\theta
+%     \frac{\cos\theta}{r}
+%     \\
+%     & = \left( \pdern ur2\sin\theta + \frac{\partial^2 u}{\partial
+%       r\partial\theta}\frac{\cos\theta}{r} - \pder u\theta
+%     \frac{\cos\theta}{r^2}\right) \sin\theta
+%     \\
+%     & \qquad+ \left( \frac{\partial^2 u}{\partial\theta\partial
+%       r}\sin\theta + \pder ur \cos\theta + \pdern u\theta2
+%     \frac{\cos\theta}{r} - \pder u\theta \frac{\sin\theta}{r}\right)
+%     \frac{\cos\theta}{r}                                            \\
+%     & = \pdern ur2 \sin^2\theta + \pdern u\theta2
+%     \frac{\cos^2\theta}{r^2} +2 \frac{\partial^2 u}{\partial
+%     r\partial\theta} \frac{\cos\theta\sin\theta}{r}
+%     + \pder ur \frac{\cos^2\theta}{r} -2 \pder u\theta
+%     \frac{\sin\theta\cos\theta}{r^2}
+%     \shortintertext{hence:}
+%     \Delta u
+%     & = \pdern ux2 + \pdern uy2
+%     = \pdern ur2 + \pdern u\theta2 \frac{1}{r^2} + \pder ur \frac{1}{r}
+%   \end{align*}
+% \end{proof}
+% \begin{thm}[Stein-Shakarchi Theorem 2.1]
+%   Suppose $f$ is an integrable function on the circle with all
+%   Fourier coefficients equal to zero.
+%   Then $f(\theta_0)=0$ whenever $f$ is continuous at $\theta_0$.
+% \end{thm}
+% \begin{proof}
+%   First let us show that without loss of generality we can assume
+% $\theta_0=0$.
+%   To see this, define $g(x)=f(x+\theta_0)$ where $f$ is considered to
+%   be periodic on $\mathbb R$.
+%   Then for all $n\in\mathbb Z$:
+%   \begin{displaymath}
+%     \left|\int_{-\pi}^{\pi} g(x) e^{inx}dx \right|=
+%     \left|e^{-in\theta_0}\int_{-\pi+\theta_0}^{\pi+\theta_0}
+%     f(x)e^{inx} dx\right|
+%     =\left|\int_{-\pi}^{\pi} f(x) e^{inx}dx\right|
+%   \end{displaymath}
+%   Thus the Fourier coefficients of $g$ are equal to the Fourier
+%   coefficients of $f$ in modulus, meaning they are all 0 if and only
+%   if the coefficients of $f$ are all 0 (which is an assumption of
+% the theorem).
+%   If we can prove $g(0)=0$ when the coefficients of $g$ are all 0,
+%   then we know $f(\theta_0)=g(0)=0$ too.
+%
+%   It should also be obvious we can assume $f(0)>0$ (if not we can
+%   just replace $f$ with $-f$ in the following).
+%
+%   Now, choose $\delta\in\left(0,\pi/2\right]$ such that $f>f(0)/2$ on
+%   $\left( -\delta , \delta\right) $.
+%   This is possible because $f$ is continuous so we can always find a
+%   ball around 0 where $f$ is sufficiently close to $f(0)$.
+%
+%   Then we can define $p\left( \theta \right) :=
+%   \varepsilon+\cos\theta$ where we can choose $\varepsilon>0$
+%   sufficiently small such that $ \left| p\left( \theta \right)
+%   \right| < 1-\varepsilon/2$ whenever $ \left| \theta \right| \in
+%   \left[ \delta,\pi \right] $.
+%   We can think of this like shifting up so instead of $p(\delta)\in
+%   \left(0,1\right)$ and $p(\pi)=-1$ we increase $p$ a bit so that
+%   $p(\delta)<1$ still but $p(\pi)>-1$.
+%
+%   Lastly we can choose $\eta\in\left(0,\delta\right)$ so that
+%   $p\left( \theta \right)\geq1+\varepsilon/2$ for $ \left| \theta
+%   \right| <\eta$.
+%   This works because we already shifted up $\cos$ by $\varepsilon$.
+%
+%   We can now let $p_k\left( \theta \right)=\left[ p\left( \theta
+%   \right) \right]^k $
+%   Since this is a trigonometric polynomial we see for all $k\in\mathbb N$:
+%   \begin{displaymath}
+%     \int_{-\pi}^{\pi} f\left( \theta \right)p_k\left( \theta \right)d\theta =
+%     0
+%   \end{displaymath}
+%   Also we can see:
+%   \begin{align*}
+%     \left| \int_{B_\delta\left( 0 \right)^C} f\left( \theta
+%     \right)p_k\left( \theta \right)d\theta \right|
+%     & \leq 2\pi \left( 1-\varepsilon/2 \right)^k \sup \left| f \right|
+%   \end{align*}
+%   and:
+%   \begin{align*}
+%     \int_{B_\delta\left( 0 \right)\cap B_\eta\left( 0 \right)^C}
+%     f\left( \theta \right)p_k\left( \theta \right)d\theta
+%     & \geq 0
+%   \end{align*}
+%   since $f\geq f\left( 0 \right)/2>0$ and $p>0$ on $B_\delta\left( 0 \right)$.
+%   Finally:
+%   \begin{align*}
+%     \int_{B_\eta\left( 0 \right)} f\left( \theta \right)p_k\left(
+%     \theta \right)d\theta
+%     \geq \eta \left( 1+\varepsilon/2 \right)^k f\left( 0 \right)
+%   \end{align*}
+%   Since this grows unboundedly in $k$, we can see:
+%   \begin{displaymath}
+%     \int_{-\pi}^{\pi} f\left( \theta \right)p_k\left( \theta
+%     \right)d\theta \xrightarrow[k\to\infty]{} \infty
+%   \end{displaymath}
+%   which is a contradiction since those integrals must all be 0.
+%
+%   We can generalise the proof to complex valued $f$ by writing $f = u + iv$.
+%   This lets us recover $u$ and $v$ from $f$ and $\overline f$.
+%   Using the fact that the $n$-th Fourier coefficient of $f$ is the
+%   $-n$-th coefficient of its conjugate, we can show if all the
+%   Fourier coefficients of $f$ are zero then all the Fourier
+%   coefficients of $u$ and $v$ are zero, and we are done.
+% \end{proof}
+% From this we can see if $f$ is continuous on the circle and all of
+% its Fourier coefficients are zero then $f$ is zero identically.
+
+We can show the Fourier series of any $L^2$ function converges in
+$L^2$ to that function.
+This is our first fundamental result about the convergence of Fourier
+series, and means analysing $L^2$ functions through their Fourier
+series and coefficients is a well defined approach.
+\begin{thm}[$L^2$ convergence of Fourier series]
+  Let $f \in L^2 \left[ -\pi,\pi \right] $ and define $S_Nf$ by:
+  \[ S_Nf \left( \theta \right) = \sum_{n=-N}^N a_ne^{in\theta} \]
+  where $a_n$ is the $n$-th Fourier coefficient of $f$ given by:
+  \[ a_n = \frac1{2\pi}\int_{-\pi}^\pi f \left( \theta \right)
+  e^{-in\theta} \mathrm d\theta \]
+
+  Then we have:
+  \[ \lim_{N\to\infty} \int_{-\pi}^\pi \left| f \left( \theta \right)
+    - S_N f \left( \theta \right)  \right| ^2 \mathrm d\theta =0
+  \]
 \end{thm}
-\begin{proof}[Proof:]
-  First note:
-  \begin{align*}
-    r^2
-    & = x^2+y^2                                                          \\
-    \implies \pder rx
-    & = \frac xr = \cos\theta
-    \shortintertext{and similarly:}
-    \pder ry
-    & = \frac yr = \sin\theta
-    \shortintertext{for $\theta$ we have:}
-    \theta
-    & = \arctan \frac yx                                                 \\
-    \implies \pder \theta x
-    & = \frac{1}{1 + \left( \frac{y}{x} \right)^2} \cdot - \frac{y}{x^2}
-    = - \frac{y}{x^2+y^2} = -\frac{\sin\theta}{r}                         \\
-    \pder \theta y
-    & = \frac{1}{1 + \left( \frac{y}{x} \right)^2} \cdot \frac{1}{x}
-    = \frac{x}{x^2+y^2} = \frac{\cos\theta}{r}
-  \end{align*}
-  Thus for any function $f$ of $\left(x,y\right)\in\RR^2$, we have:
-  \begin{align*}
-    \pder fx
-    & = \pder fr \pder rx + \pder f\theta\pder\theta x
-    = \pder fr\cos\theta - \pder f\theta \frac{\sin\theta}{r} \\
-    \pder fy
-    & = \pder fr \pder ry + \pder f\theta\pder\theta y
-    = \pder fr\sin\theta + \pder f\theta \frac{\cos\theta}{r}
-  \end{align*}
-  Hence we can evaluate:
-  \begin{align*}
-    \pder ux
-    & = \pder ur\cos\theta - \pder u\theta \frac{\sin\theta}{r}
-    \shortintertext{so:}
-    \pdern ux2
-    & = \frac{\partial u_x}{\partial r}\cos\theta - \frac{\partial
-    u_x}{\partial\theta}\frac{\sin\theta}{r}
-    \\
-    & = \left( \pdern ur2 \cos\theta - \frac{\partial^2u}{\partial
-      r\partial\theta}\frac{\sin\theta}{r} + \pder u\theta
-    \frac{\sin\theta}{r^2} \right)\cos\theta
-    \\
-    & \qquad- \left( \frac{\partial^2 u}{\partial r\partial\theta}
-      \cos\theta - \pder ur\sin\theta - \pdern u\theta2
-    \frac{\sin\theta}{r} - \pder u\theta \frac{\cos\theta}{r} \right)
-    \frac{\sin\theta}{r}                                            \\
-    & = \pdern ur2 \cos^2\theta + \pdern u\theta2
-    \frac{\sin^2\theta}{r^2} - 2\frac{\partial^2u}{\partial
-    r\partial\theta} \frac{\sin\theta\cos\theta}{r}
-    + \pder ur \frac{\sin^2\theta}{r} + 2\pder u\theta
-    \frac{\sin\theta\cos\theta}{r^2}
-    \shortintertext{and similarly:}
-    \pder uy
-    & = \pder ur\sin\theta + \pder u\theta \frac{\cos\theta}{r}
-    \\
-    \implies
-    \pdern uy2
-    & = \pder {u_y}r \sin\theta + \pder{u_y}\theta
-    \frac{\cos\theta}{r}
-    \\
-    & = \left( \pdern ur2\sin\theta + \frac{\partial^2 u}{\partial
-      r\partial\theta}\frac{\cos\theta}{r} - \pder u\theta
-    \frac{\cos\theta}{r^2}\right) \sin\theta
-    \\
-    & \qquad+ \left( \frac{\partial^2 u}{\partial\theta\partial
-      r}\sin\theta + \pder ur \cos\theta + \pdern u\theta2
-    \frac{\cos\theta}{r} - \pder u\theta \frac{\sin\theta}{r}\right)
-    \frac{\cos\theta}{r}                                            \\
-    & = \pdern ur2 \sin^2\theta + \pdern u\theta2
-    \frac{\cos^2\theta}{r^2} +2 \frac{\partial^2 u}{\partial
-    r\partial\theta} \frac{\cos\theta\sin\theta}{r}
-    + \pder ur \frac{\cos^2\theta}{r} -2 \pder u\theta
-    \frac{\sin\theta\cos\theta}{r^2}
-    \shortintertext{hence:}
-    \Delta u
-    & = \pdern ux2 + \pdern uy2
-    = \pdern ur2 + \pdern u\theta2 \frac{1}{r^2} + \pder ur \frac{1}{r}
-  \end{align*}
-\end{proof}
-\begin{thm}[Stein-Shakarchi Theorem 2.1]
-  Suppose $f$ is an integrable function on the circle with all
-  Fourier coefficients equal to zero.
-  Then $f(\theta_0)=0$ whenever $f$ is continuous at $\theta_0$.
-\end{thm}
-\begin{proof}
-  First let us show that without loss of generality we can assume $\theta_0=0$.
-  To see this, define $g(x)=f(x+\theta_0)$ where $f$ is considered to
-  be periodic on $\mathbb R$.
-  Then for all $n\in\mathbb Z$:
-  \begin{displaymath}
-    \left|\int_{-\pi}^{\pi} g(x) e^{inx}dx \right|=
-    \left|e^{-in\theta_0}\int_{-\pi+\theta_0}^{\pi+\theta_0}
-    f(x)e^{inx} dx\right|
-    =\left|\int_{-\pi}^{\pi} f(x) e^{inx}dx\right|
-  \end{displaymath}
-  Thus the Fourier coefficients of $g$ are equal to the Fourier
-  coefficients of $f$ in modulus, meaning they are all 0 if and only
-  if the coefficients of $f$ are all 0 (which is an assumption of the theorem).
-  If we can prove $g(0)=0$ when the coefficients of $g$ are all 0,
-  then we know $f(\theta_0)=g(0)=0$ too.
-
-  It should also be obvious we can assume $f(0)>0$ (if not we can
-  just replace $f$ with $-f$ in the following).
-
-  Now, choose $\delta\in\left(0,\pi/2\right]$ such that $f>f(0)/2$ on
-  $\left( -\delta , \delta\right) $.
-  This is possible because $f$ is continuous so we can always find a
-  ball around 0 where $f$ is sufficiently close to $f(0)$.
-
-  Then we can define $p\left( \theta \right) :=
-  \varepsilon+\cos\theta$ where we can choose $\varepsilon>0$
-  sufficiently small such that $ \left| p\left( \theta \right)
-  \right| < 1-\varepsilon/2$ whenever $ \left| \theta \right| \in
-  \left[ \delta,\pi \right] $.
-  We can think of this like shifting up so instead of $p(\delta)\in
-  \left(0,1\right)$ and $p(\pi)=-1$ we increase $p$ a bit so that
-  $p(\delta)<1$ still but $p(\pi)>-1$.
-
-  Lastly we can choose $\eta\in\left(0,\delta\right)$ so that
-  $p\left( \theta \right)\geq1+\varepsilon/2$ for $ \left| \theta
-  \right| <\eta$.
-  This works because we already shifted up $\cos$ by $\varepsilon$.
-
-  We can now let $p_k\left( \theta \right)=\left[ p\left( \theta
-  \right) \right]^k $
-  Since this is a trigonometric polynomial we see for all $k\in\mathbb N$:
-  \begin{displaymath}
-    \int_{-\pi}^{\pi} f\left( \theta \right)p_k\left( \theta \right)d\theta =
-    0
-  \end{displaymath}
-  Also we can see:
-  \begin{align*}
-    \left| \int_{B_\delta\left( 0 \right)^C} f\left( \theta
-    \right)p_k\left( \theta \right)d\theta \right|
-    & \leq 2\pi \left( 1-\varepsilon/2 \right)^k \sup \left| f \right|
-  \end{align*}
-  and:
-  \begin{align*}
-    \int_{B_\delta\left( 0 \right)\cap B_\eta\left( 0 \right)^C}
-    f\left( \theta \right)p_k\left( \theta \right)d\theta
-    & \geq 0
-  \end{align*}
-  since $f\geq f\left( 0 \right)/2>0$ and $p>0$ on $B_\delta\left( 0 \right)$.
-  Finally:
-  \begin{align*}
-    \int_{B_\eta\left( 0 \right)} f\left( \theta \right)p_k\left(
-    \theta \right)d\theta
-    \geq \eta \left( 1+\varepsilon/2 \right)^k f\left( 0 \right)
-  \end{align*}
-  Since this grows unboundedly in $k$, we can see:
-  \begin{displaymath}
-    \int_{-\pi}^{\pi} f\left( \theta \right)p_k\left( \theta
-    \right)d\theta \xrightarrow[k\to\infty]{} \infty
-  \end{displaymath}
-  which is a contradiction since those integrals must all be 0.
-
-  We can generalise the proof to complex valued $f$ by writing $f = u + iv$.
-  This lets us recover $u$ and $v$ from $f$ and $\overline f$.
-  Using the fact that the $n$-th Fourier coefficient of $f$ is the
-  $-n$-th coefficient of its conjugate, we can show if all the
-  Fourier coefficients of $f$ are zero then all the Fourier
-  coefficients of $u$ and $v$ are zero, and we are done.
-\end{proof}
-From this we can see if $f$ is continuous on the circle and all of
-its Fourier coefficients are zero then $f$ is zero identically.
-\begin{thm}[Convergence of Cesaro sums]
-  Suppose a sequence $z_n$ converges to $A$.
-  Then the Cesaro sums of $z_n$ also converge to $A$
-\end{thm}
-\begin{proof}
-  Without loss of generality assume $A=0$.
-  If not define $y_n = z_n - A$, and notice that $y_n \to 0$ and
-  \begin{displaymath}
-    \frac{\sum_{i=1}^Ny_i}{N}
-    = \frac{\sum_{i=1}^N\left( z_i-A \right)}{N}
-    = \frac{\sum_{i=1}^Nz_i}{N}-A
-  \end{displaymath}
-  meaning if we show the Cesaro sums of $y_n$ converge to zero, we
-  show the Cesaro sums of $z_n$ converge to $A$.
-  Let $\varepsilon>0$ be given and choose $M>0$ such that $ \left|
-  y_m \right| < \varepsilon/2$ for $m>M$.
-  Also note that we know $y_n$ are bounded since they are convergent.
-
-  For any $n>M$:
-  \begin{align*}
-    \left| \frac1n\sum_{i=1}^ny_i \right|
-    & \leq \frac1n\sum_{i=1}^M \left| y_i \right|  +
-    \frac1n\sum_{i=M+1}^n \left| y_i \right|
-    \\
-    & \leq \frac Mn \sup_{i\in\mathbb N} \left| y_i \right|  + \left(
-    1-\frac{M}{n} \right)\frac\varepsilon2
-    \xrightarrow[n\to\infty]{} \frac\varepsilon2
-  \end{align*}
-  Hence there exists some $N>M$ such that for all $n>N$ we have:
-  \begin{displaymath}
-    \left| \frac1n \sum_{i=1}^ny_i \right| < \varepsilon
-  \end{displaymath}
-\end{proof}
+We can prove this directly but we need some intermediate results.
+% \begin{thm}[Convergence of Cesaro sums]
+%   Suppose a sequence $z_n$ converges to $A$.
+%   Then the Cesaro sums of $z_n$ also converge to $A$
+% \end{thm}
+% \begin{proof}
+%   Without loss of generality assume $A=0$.
+%   If not define $y_n = z_n - A$, and notice that $y_n \to 0$ and
+%   \begin{displaymath}
+%     \frac{\sum_{i=1}^Ny_i}{N}
+%     = \frac{\sum_{i=1}^N\left( z_i-A \right)}{N}
+%     = \frac{\sum_{i=1}^Nz_i}{N}-A
+%   \end{displaymath}
+%   meaning if we show the Cesaro sums of $y_n$ converge to zero, we
+%   show the Cesaro sums of $z_n$ converge to $A$.
+%   Let $\varepsilon>0$ be given and choose $M>0$ such that $ \left|
+%   y_m \right| < \varepsilon/2$ for $m>M$.
+%   Also note that we know $y_n$ are bounded since they are convergent.
+%
+%   For any $n>M$:
+%   \begin{align*}
+%     \left| \frac1n\sum_{i=1}^ny_i \right|
+%     & \leq \frac1n\sum_{i=1}^M \left| y_i \right|  +
+%     \frac1n\sum_{i=M+1}^n \left| y_i \right|
+%     \\
+%     & \leq \frac Mn \sup_{i\in\mathbb N} \left| y_i \right|  + \left(
+%     1-\frac{M}{n} \right)\frac\varepsilon2
+%     \xrightarrow[n\to\infty]{} \frac\varepsilon2
+%   \end{align*}
+%   Hence there exists some $N>M$ such that for all $n>N$ we have:
+%   \begin{displaymath}
+%     \left| \frac1n \sum_{i=1}^ny_i \right| < \varepsilon
+%   \end{displaymath}
+% \end{proof}
 By linearity of convolution we know the Cesaro means of the Fourier
 series are given by convolution with Fejer kernels:
 \begin{displaymath}
@@ -236,13 +259,15 @@ We can define a notion of a good kernel:
 \begin{definition}[Good kernel]\label{def:goodkernel}
   A family of kernels $ \left( K_n \right) $ is a family of good
   kernels if it satisfies:
-  \begin{enumerate}
-    \item For all $n\in\NN$ \[ \frac1{2\pi}\int_{-\pi}^{\pi} K_n
+  \begin{enumerate}[label=(\roman*)]
+    \item \label{def:goodkernel:i}For all $n\in\NN$ \[
+        \frac1{2\pi}\int_{-\pi}^{\pi} K_n
       \left( t \right) \mathrm dt = 1 \]
-    \item There exists $M>0$ such that for all $n\in\NN$ \[
+    \item \label{def:goodkernel:ii}There exists $M>0$ such that for
+      all $n\in\NN$ \[
         \int_{-\pi}^{\pi} \left| K_n \left( t \right) \right|  \mathrm
       dt \leq M \]
-    \item For all $\delta>0$ we have \[
+    \item \label{def:goodkernel:iii}For all $\delta>0$ we have \[
         \lim_{n\to\infty}\int_{B_\delta \left( 0 \right) ^C} \left| K_n
       \left( t \right) \right|  \mathrm dt = 0 \]
   \end{enumerate}
@@ -260,18 +285,15 @@ We can directly compute the Fejer kernels and show they are good kernels.
   The Fejer kernels are good kernels.
 \end{thm}
 First we will to show a brief identity for our computation:
-\begin{lem}\label{lem:fejer_kernel_identity}
-  \[
-    e^{i\theta} + e^{-i\theta} - 2 = -4\sin^2 \frac\theta2
-  \]
-\end{lem}
-\begin{proof}[Proof:]
-  \begin{align*}
-    \sin^2 \frac\theta2
-    &= \left( \frac{e^{i\theta/2} - e^{-i\theta/2}}{2i} \right)^2
-    = -\frac{e^{i\theta} + e^{-i\theta} - 2}{4}
-  \end{align*}
-\end{proof}
+\[
+  e^{i\theta} + e^{-i\theta} - 2 = -4\sin^2 \frac\theta2
+\]
+This can be seen by noticing:
+\begin{align*}
+  \sin^2 \frac\theta2
+  &= \left( \frac{e^{i\theta/2} - e^{-i\theta/2}}{2i} \right)^2
+  = -\frac{e^{i\theta} + e^{-i\theta} - 2}{4}
+\end{align*}
 With this we can continue with the proof.
 \begin{proof}[Proof of \cref{thm:fejer_good_kernels}:]
   First we will consider the Dirichlet kernels $D_N$, where
@@ -294,7 +316,12 @@ With this we can continue with the proof.
     \frac{1}{2\pi}\int_{-\pi}^{\pi} D_N \left( \theta \right) \mathrm
     d\theta = 1
   \]
-  We can compute $D_N$ in closed form
+  Since $F_N$ is simply the mean of the first $N$ $D_n$, the above
+  holds so we can conclude property \ref{def:goodkernel:i} of
+  \cref{def:goodkernel} is satisfied.
+
+  We can compute $D_N$ in closed form.
+  Let $N\in\ZZ$ be given.
   \begin{align*}
     D_N \left( \theta \right)
     & = \sum_{n=-N}^N e^{in\theta}
@@ -323,6 +350,38 @@ With this we can continue with the proof.
     & = \frac{\sin \left( \left( N+\frac12 \right) \theta \right)
     }{\sin \left( \frac\theta2 \right) }
   \end{align*}
+  Using this we can see:
+  \begin{align*}
+    \int_{-\pi}^\pi \left| D_N \left( \theta \right)   \right| \mathrm d\theta
+    &=\int_{-\pi}^\pi \left| \frac{\sin \left( \left( N+\frac12
+    \right)\theta \right)  }{\sin\frac\theta2}   \right| \mathrm d\theta \\
+    &=\int_{-\pi}^\pi  \frac{\left| \sin \left( \left( N+\frac12
+    \right)\theta \right)   \right| }{\left| \sin\frac\theta2 \right|
+    }    \mathrm d\theta
+  \end{align*}
+  We can apply L'Hopital's rule to see that the integrand has a limit
+  as $\theta\to0$:
+  \begin{align*}
+    \lim_{\theta\to0} \frac{\sin \left( \left( N+\frac12 \right)
+    \theta \right) }{\sin\frac\theta2}
+    &= \lim_{\theta\to0} \frac{\left( N+\frac12 \right)\cos \left(
+        \left( N+\frac12 \right)
+    \theta \right) }{\frac12\cos\frac\theta2}
+    = \lim_{\theta\to0} \frac{\left( N+\frac12 \right)\cos \left(
+        \left( N+\frac12 \right)
+    \theta \right) }{\frac12\cos\frac\theta2}
+    = 2N+1
+  \end{align*}
+  Thus we can see that there must be some
+  small $\delta>0$ such that the integrand is bounded above on
+  $[-\delta,\delta]$ (by the $\varepsilon$-$\delta$ definition of limits).
+
+  We also see by inspection that for any $\delta>0$, on
+  $[-\pi,-\delta]\cup[\delta,\pi]$,
+  the numerator is bounded above by 1 and the denominator is bounded
+  below by $\sin \left( \delta/2 \right) $, so the integrand itself is
+  bounded above by $1/\sin \left( \delta/2 \right) $.
+
   Now we can directly compute:
   \begin{align*}
     F_n \left( \theta  \right)
@@ -352,7 +411,7 @@ With this we can continue with the proof.
     1-e^{i\theta} \right) \left( 1-e^{-i\theta} \right)  }  \\
     & = \frac{ 2-e^{-in\theta} -e^{in\theta} }{n \left( 2 -
     e^{i\theta} - e^{-i\theta} \right)  }
-    \shortintertext{by \cref{lem:fejer_kernel_identity}:}
+    \shortintertext{by the identity we computed earlier:}
     & = \frac{ \sin^2 \frac{N\theta}2 }{n \sin^2\frac\theta2  }
   \end{align*}
 \end{proof}
